@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification</title>
+    <link rel="stylesheet" href="css/style2.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="wraper">
+           <section class="login">
+
+            <h1>Connexion</h1>
+            <form id="Login-form">
+                <div class="inputbox">
+                <ion-icon name="mail-outline"></ion-icon>
+                  <input id="login-email" type="email" placeholder=" " >
+                    <label for="email">Email</label>  
+                </div>
+                 <div class="inputbox">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input id="login-password" type="password" placeholder=" " >
+                    <label for="password">Mot de passe</label>  
+                </div>
+                <div class="forgot">
+                <input type="checkbox">
+                <a href="">Mot de passe oublié ?</a>
+                </div>
+                <button>Connexion</button>
+                <div class="register-option">
+                <span>Pas encore de compte ?</span>
+                <a href="#" id="login-to-register">S'inscrire</a>
+                </div>                  
+            </form> 
+            </section>
+            <section class="register">
+            <h1>Inscription</h1>
+            <form id ="Inscription-form">
+                <div class="inputbox">
+                <ion-icon name="person-add-outline"></ion-icon>
+                  <input id ="nom" type="text" placeholder=" " >
+                    <label for="nom">Nom</label>  
+                </div>
+                 <div class="inputbox">
+                <ion-icon name="mail-outline"></ion-icon>
+                  <input id="email" type="email" placeholder=" " >
+                    <label for="email">Email</label>  
+                </div>
+                 <div class="inputbox">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input id="password" type="password" placeholder=" " >
+                    <label for="password">Mot de passe</label>  
+                </div>
+                <button>Inscription</button>
+                <div class="register-option">
+                <span>Déja un compte ?</span>
+                <a href="#" id="register-to-login">Se connecter</a>
+                </div>                   
+            </form> 
+            </section>
+        </div>
+    </div>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="script.js"></script>
+    
+</body>
+</html>
