@@ -3,8 +3,6 @@ dotenv.config();
 
 const express = require('express');
 const mongoose = require('mongoose');
-const nodemailer = require('nodemailer');
-const crypto = require('crypto');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -47,21 +45,10 @@ const UserSchema = new mongoose.Schema({
   nom: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  resetToken: String,
-  resetTokenExpire: Date,
   createdAt: { type: Date, default: Date.now }
 });
 
 const User = mongoose.model('User', UserSchema);
-
-// Configuration de l'email (Gmail)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER || 'votre.email@gmail.com',
-    pass: process.env.EMAIL_PASSWORD || 'votre.mot.de.passe.app'
-  }
-});
 
 // Routes
 app.get('/', (req, res) => {
@@ -173,99 +160,6 @@ app.post('/login', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Erreur lors de la connexion',
-      error: error.message
-    });
-  }
-});
-
-// Route Mot de passe oublié
-app.post('/forgot-password', async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    // Vérifier que l'email existe
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'Cet email n\'existe pas'
-      });
-    }
-
-    // Générer un token de réinitialisation
-    const resetToken = crypto.randomBytes(32).toString('hex');
-    user.resetToken = resetToken;
-    user.resetTokenExpire = new Date(Date.now() + 1800000); // 30 minutes
-    await user.save();
-
-    // Envoyer l'email
-    const resetLink = `http://localhost:4000/reset-password.html?token=${resetToken}`;
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Réinitialiser votre mot de passe',
-      html: `
-        <h2>Réinitialisation de mot de passe</h2>
-        <p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :</p>
-        <a href="${resetLink}">Réinitialiser le mot de passe</a>
-        <p>Ce lien expire dans 30 minutes.</p>
-      `
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return res.status(500).json({
-          success: false,
-          message: 'Erreur lors de l\'envoi de l\'email',
-          error: error.message
-        });
-      }
-      res.json({
-        success: true,
-        message: 'Email de réinitialisation envoyé !'
-      });
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Erreur lors du traitement',
-      error: error.message
-    });
-  }
-});
-
-// Route Réinitialiser le mot de passe
-app.post('/reset-password', async (req, res) => {
-  try {
-    const { token, newPassword } = req.body;
-
-    // Trouver l'utilisateur avec ce token
-    const user = await User.findOne({
-      resetToken: token,
-      resetTokenExpire: { $gt: Date.now() }
-    });
-
-    if (!user) {
-      return res.status(400).json({
-        success: false,
-        message: 'Token invalide ou expiré'
-      });
-    }
-
-    // Mettre à jour le mot de passe
-    user.password = newPassword;
-    user.resetToken = undefined;
-    user.resetTokenExpire = undefined;
-    await user.save();
-
-    res.json({
-      success: true,
-      message: 'Mot de passe réinitialisé avec succès !'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Erreur lors de la réinitialisation',
       error: error.message
     });
   }
