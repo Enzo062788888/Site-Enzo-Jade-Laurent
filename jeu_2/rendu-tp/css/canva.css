@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+body { 
+    margin:0; 
+    background: #000;; 
+    overflow:hidden; 
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+canvas { 
+    display:block; 
+    margin:auto; 
+    background: #222222;
+}
