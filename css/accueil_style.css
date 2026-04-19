@@ -74,11 +74,62 @@ header {
 .arcade-pad {
     position: relative;
     flex: 1;
-    min-height: 320px;
+    min-height: 360px;
     background-image: url("../asset/arcade_pad.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center bottom;
+}
+
+.coin-slot {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 80px;
+    border: 3px dashed rgba(255, 255, 255, 0.8);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.95rem;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 10;
+}
+
+.coin {
+    position: absolute;
+    top: 28px;
+    left: calc(50% - 35px);
+    width: 70px;
+    height: 70px;
+    background-image: url("../asset/coin.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: grab;
+    z-index: 20;
+}
+
+.coin.dragging {
+    opacity: 0.9;
+    cursor: grabbing;
+}
+
+.coin-message {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 0.95rem;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 8px 14px;
+    border-radius: 14px;
+    max-width: 260px;
+    text-align: center;
+    z-index: 10;
 }
 
 .joystick {

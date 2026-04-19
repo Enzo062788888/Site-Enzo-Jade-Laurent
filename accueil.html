@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/accueil_style.css">
     <script src="js/joystick.js" defer></script>
+    <script src="js/coin.js" defer></script>
 
-    <title>Document</title>
+    <title>Accueil</title>
 </head>
 <body>
 
   <header>
     <nav class="navbar">
 
-        <a href="#">Jeux</a>
+        <a href="jeux.html">Jeux</a>
         <a href="#">À propos</a>
 
-        <div> 
+        <a href="accueil.html">
             <img class="logo" src="asset/logo.png" alt="logo">
-        </div>
+        </a>
 
         <a href="#">Règles</a>
         <button class="btn-connexion">Connexion</button>
@@ -28,6 +29,9 @@
 
 
   <div class="arcade-pad">
+    <div class="coin-slot">Fente</div>
+    <div class="coin" id="coin"></div>
+    <div class="coin-message" id="coinMessage">Dépose la pièce dans la fente pour activer l'action.</div>
   </div>
 
 
