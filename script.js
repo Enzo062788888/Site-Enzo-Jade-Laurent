@@ -45,7 +45,7 @@ document.getElementById('Login-form').addEventListener('submit', async (e) => {
       // Optionnel: Sauvegarder les infos de l'utilisateur
       localStorage.setItem('user', JSON.stringify(data.user));
       // Redirection vers la page d'accueil
-      window.location.href = 'acceuil.html';
+      window.location.href = 'accueil.html';
     } else {
       alert(`❌ ${data.message}`);
     }
