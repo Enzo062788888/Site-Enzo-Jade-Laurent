@@ -40,6 +40,16 @@ const TestSchema = new mongoose.Schema({
 
 const Test = mongoose.model('Test', TestSchema);
 
+// Modèle User pour l'authentification
+const UserSchema = new mongoose.Schema({
+  nom: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const User = mongoose.model('User', UserSchema);
+
 // Routes
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: '../' });
@@ -89,6 +99,67 @@ app.get('/tests', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Erreur de lecture',
+      error: error.message
+    });
+  }
+});
+
+// Route d'inscription
+app.post('/register', async (req, res) => {
+  try {
+    const { nom, email, password } = req.body;
+
+    // Vérifier si l'utilisateur existe déjà
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cet email est déjà utilisé'
+      });
+    }
+
+    // Créer un nouvel utilisateur
+    const newUser = new User({ nom, email, password });
+    await newUser.save();
+
+    res.json({
+      success: true,
+      message: 'Inscription réussie !',
+      user: { nom: newUser.nom, email: newUser.email }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erreur lors de l\'inscription',
+      error: error.message
+    });
+  }
+});
+
+// Route de connexion
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Chercher l'utilisateur
+    const user = await User.findOne({ email, password });
+
+    if (user) {
+      res.json({
+        success: true,
+        message: 'Connexion réussie !',
+        user: { nom: user.nom, email: user.email }
+      });
+    } else {
+      res.status(401).json({
+        success: false,
+        message: 'Email ou mot de passe incorrect'
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erreur lors de la connexion',
       error: error.message
     });
   }
