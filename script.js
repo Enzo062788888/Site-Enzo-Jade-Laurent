@@ -16,8 +16,8 @@ registerToLogin.addEventListener('click', (e) => {
   registerSection.style.display = 'none';
 });
 
-// Route du serveur
-const API_URL = 'http://localhost:4000';
+// Route du serveur - URLs relatives (fonctionne sur n'importe quel port)
+const API_URL = '';
 
 // ============ FORMULAIRE DE LOGIN ============
 document.getElementById('Login-form').addEventListener('submit', async (e) => {
