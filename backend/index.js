@@ -56,7 +56,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/accueil', (req, res) => {
-  res.sendFile('acceuil.html', { root: '../' });
+  res.sendFile('accueil.html', { root: '../' });
 });
 
 app.get('/about', (req, res) => {
