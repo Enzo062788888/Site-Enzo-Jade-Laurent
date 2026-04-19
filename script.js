@@ -16,6 +16,29 @@ registerToLogin.addEventListener('click', (e) => {
   registerSection.style.display = 'none';
 });
 
+// Gestion du mot de passe oublié
+const forgotPasswordLink = document.getElementById('forgot-password-link');
+forgotPasswordLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  const email = prompt('Entrez votre email :');
+  if (email) {
+    fetch('/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('✅ Email de réinitialisation envoyé ! Vérifiez votre boîte mail.');
+      } else {
+        alert(`❌ ${data.message}`);
+      }
+    })
+    .catch(error => alert(`❌ Erreur : ${error.message}`));
+  }
+});
+
 // Route du serveur - URLs relatives (fonctionne sur n'importe quel port)
 const API_URL = '';
 
