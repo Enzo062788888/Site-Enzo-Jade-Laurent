@@ -1,24 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 
+
 body {
     min-height: 100vh;
     width: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
     color: #fff;
+    font-family: "Pixelify Sans", sans-serif;
+    overflow: auto;
 
     background-image: url("../asset/homepage.jpg");
-    background-size: cover;
+        background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    background-attachment: fixed;
-    font-family: "Pixelify Sans", sans-serif;
-    overflow: hidden;
+
 }
 
 header {
     width: 100%;
     padding: 25px 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    flex-shrink: 0;
 }
 
 .navbar {
@@ -47,6 +54,8 @@ header {
 
 }
 
+
+
 .btn-connexion {
     font-family: "Pixelify Sans", sans-serif;
     font-size: 16px;
@@ -62,5 +71,14 @@ header {
 .btn-connexion:active {
     transform: translate(3px, 3px);
     box-shadow: none;
+}
+
+.arcade-pad {
+    background-image: url("../asset/arcade_pad.png");
+    height: 200px;
+    width: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
