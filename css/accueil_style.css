@@ -54,8 +54,6 @@ header {
 
 }
 
-
-
 .btn-connexion {
     font-family: "Pixelify Sans", sans-serif;
     font-size: 16px;
@@ -74,11 +72,27 @@ header {
 }
 
 .arcade-pad {
+    position: relative;
+    flex: 1;
+    min-height: 320px;
     background-image: url("../asset/arcade_pad.png");
-    height: 200px;
-    width: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+
+.joystick {
+    position: absolute;
+    left: 83%;
+    bottom: 15%;
+    width: 180px;
+    height: 180px;
+    transform: translateX(-50%);
+    z-index: 100;
+    background-image: url("../asset/joystick.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
+    pointer-events: none;
 }
 
