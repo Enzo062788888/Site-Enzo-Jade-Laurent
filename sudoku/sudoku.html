@@ -10,8 +10,6 @@
 <body>
     <div>
         <h1>SUDOKU</h1>
-        <button id="reset-button" onclick="window.location.href='../accueil.html'">Retour</button>
-        <br>
         <p>Nombre <strong>d'erreurs : </strong><span id="error-count"></span></p>
         <p>Nombre de réussite : <span id="success-count"></span></p>
         <p>Chronomètre : <span id="timer"></span></p>
@@ -19,6 +17,10 @@
 
     <div class="sudoku-board" id="sudoku-board"></div>
     <div id="numbers"></div>
-    <button id="reset-button">Nouveau niveau</button>
+    <div>
+        <button id="reset-button">Nouveau niveau</button>
+        <button id="reset-button" onclick="window.location.href='../accueil.html'">Retour</button>
+    </div>
+
 </body>
 </html>
