@@ -24,6 +24,29 @@
             width: 100vw;
             height: 100vh;
         }
+        button {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            padding: 10px 24px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #0f0;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.2s, color 0.2s;
+        }
+        button:hover {
+            background: #0f0;
+            color: #000;
+        }
+        button:active {
+            background: #0a0;
+            color: #000;
+        }
     </style>
 </head>
 <body>
