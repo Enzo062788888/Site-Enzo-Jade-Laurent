@@ -54,7 +54,7 @@ function generateSudoku() {
 
 // Génère une grille de Sudoku et masque aléatoirement certaines cellules pour créer le puzzle
 const mySudoku = generateSudoku();
-const hiddenGrid = mySudoku.map(row => row.map(cell => (Math.random() < 0.5 ? cell : 0))); // Masque aléatoirement certaines cellules
+const hiddenGrid = mySudoku.map(row => row.map(cell => (Math.random() < 0.1 ? cell : 0))); // Masque aléatoirement certaines cellules
 let errorCount = 0;
 console.table(hiddenGrid);
 console.table(mySudoku);
@@ -114,6 +114,9 @@ for (let num = 1; num <= 9; num++) {
                     selectedCell.classList.remove('error');
                 }  
                 selectedCell.classList.add('correct');
+                if (checkWin()) {
+                    alert('Félicitations ! Vous avez terminé le Sudoku en ' + seconds + ' secondes avec ' + errorCount + ' erreurs.');
+                }
             } else {
                 // Erreur
                 if (selectedCell.classList.contains('correct')) {
@@ -139,6 +142,10 @@ resetButton.addEventListener('click', () => {
 const errorCountElement = document.getElementById('error-count');
 errorCountElement.textContent = errorCount;
 
+// Affiche le nombre de victoires
+const successCountElement = document.getElementById('success-count');
+successCountElement.textContent = localStorage.getItem('sudokuWins') || '0';
+
 const timerElement = document.getElementById('timer');
 let seconds = 0;
 let timerInterval;
@@ -148,6 +155,18 @@ function startTimer() {
         seconds++;
         timerElement.textContent = seconds;
     }, 1000);
+}
+
+function checkWin(){
+    const cells = Array.from(document.querySelectorAll('.sudoku-cell'));
+    const allCorrect = cells.every(cell => cell.classList.contains('correct') || cell.textContent === '');
+    if (allCorrect) {
+        clearInterval(timerInterval);
+        const wins = parseInt(localStorage.getItem('sudokuWins') || '0', 10) + 1;
+        localStorage.setItem('sudokuWins', String(wins));
+        successCountElement.textContent = wins;
+        alert('Félicitations ! Vous avez terminé le Sudoku en ' + seconds + ' secondes avec ' + errorCount + ' erreurs.');
+    }
 }
 
 startTimer();
