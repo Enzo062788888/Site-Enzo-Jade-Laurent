@@ -1,5 +1,5 @@
-import Vaisseau from "./vaisseau.js";
-import Vagues from "./vagues.js";
+import Vaisseau from "../js/vaisseau.js";
+import Vagues from "../js/vagues.js";
 import Rocher from "./rocher.js";
 
 let backgroundImage = null;
@@ -15,21 +15,21 @@ const introLignes = [
 ];
 // Image assets
 const imgVaisseau = new Image();
-imgVaisseau.src = "vaisseau.png";
+imgVaisseau.src = "../asset/vaisseau.png";
 
 const imgVaisseauShield = new Image();
-imgVaisseauShield.src = "shell.png";
+imgVaisseauShield.src = "../asset/shell.png";
 
 const imgVaisseauDeath = new Image();
-imgVaisseauDeath.src = "vaisseaudeath.png";
+imgVaisseauDeath.src = "../asset/vaisseaudeath.png";
 
 const feu = new Image();
 let feuCharge = false;
 let feuSources = [
-    "feu.png",
-    "Feu.png",
-    "feu.PNG",
-    "Feu.PNG",
+    "../asset/feu.png",
+    "../asset/Feu.png",
+    "../asset/feu.PNG",
+    "../asset/Feu.PNG",
 ];
 let feuIndex = 0;
 setTimeout(() => {
@@ -55,7 +55,7 @@ feu.onerror = () => {
 chargerFeu();
 
 const imgShield = new Image();
-imgShield.src = "shieldobject-removebg-preview.png";
+imgShield.src = "../asset/shieldobject-removebg-preview.png";
 
 // Game variables
 let vaisseau = null;
@@ -97,11 +97,11 @@ function loadBackground() {
     };
     backgroundImage.onerror = () => {
         console.warn(
-            "Failed to load background image from Fond.png",
+            "Failed to load background image from ../asset/Fond.png",
         );
         backgroundLoaded = false;
     };
-    backgroundImage.src = "Fond.png";
+    backgroundImage.src = "../asset/Fond.png";
 }
 
 class Tirer {

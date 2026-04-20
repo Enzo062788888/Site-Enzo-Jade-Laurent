@@ -12,7 +12,7 @@ export default class Rocher{
                 console.warn("Failed to load rock image from rocher.png");
                 Rocher.imageLoaded = false;
             };
-            Rocher.rockImage.src = "rocher.png";
+            Rocher.rockImage.src = "../asset/rocher.png";
         }
     }
 
