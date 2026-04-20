@@ -6,6 +6,30 @@
 
 ## 2. Structure du projet
 
+### Organisation du Projet
+
+```
+space_invader/
+├── space_invader.html      # Fichier HTML principal (canvas et imports)
+├── README.md               # Documentation technique
+│
+├── js/                     # Modules JavaScript
+│   ├── spaceGame.js        # Boucle de jeu, HUD, gestion d'états
+│   ├── vaisseau.js         # Classe Vaisseau (joueur)
+│   ├── vagues.js           # Classe Vagues (gestion des vagues)
+│   └── rocher.js           # Classe Rocher (ennemis)
+│
+└── asset/                  # Ressources graphiques
+    ├── vaisseau.png        # Image du vaisseau
+    ├── shell.png           # Image du bouclier
+    ├── feu.png             # Image des projectiles
+    ├── rocher.png          # Image des rochers
+    ├── Fond.png            # Image de fond
+    └── shieldobject-removebg-preview.png  # Variante bouclier
+```
+
+### Détails des Modules
+
 Le projet est organisé en modules JavaScript répartis dans le dossier `js/` :
 
 ### **vaisseau.js**
