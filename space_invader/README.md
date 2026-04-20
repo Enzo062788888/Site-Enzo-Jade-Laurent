@@ -1,53 +1,77 @@
-# Space Invader Game
+# Space Invader - Documentation Technique
 
-Un jeu Space Invader développé avec JavaScript et Canvas HTML5.
+## 1. Description du jeu
 
-## Organisation du Projet
+**Space Invader** est un jeu de tir et esquive top-down en JavaScript vanilla. Le joueur incarne un vaisseau spatial qui doit survivre à des vagues de rochers tombant du ciel. Le gameplay intègre un système de tir pour détruire les rochers, un système de santé (3 vies), et un mécanisme de bouclier débloqué via un mini-jeu de mots. Le jeu propose plusieurs vagues de difficulté progressive avec un score sauvegardé en localStorage.
 
-```
-Space invader/
-├── spaceGame.js         # Fichier principal du jeu
-├── vaisseau.js          # Classe Vaisseau (joueur)
-├── vagues.js            # Classe Vagues (gestion des vagues et rochers)
-├── rocher.js            # Classe Rocher (ennemis)
-├── spaceinvader.html    # Fichier HTML principal
-├── vaisseau.png         # Image du vaisseau
-├── shell.png            # Image du bouclier
-├── feu.png              # Image des tirs
-├── rocher.png           # Image des rochers
-├── Fond.png             # Image de fond
-└── shieldobject-removebg-preview.png  # Image du bouclier objet
-```
+## 2. Structure du projet
 
-## Architecture et Design
+Le projet est organisé en modules JavaScript répartis dans le dossier `js/` :
 
-### Classes Principales
+### **vaisseau.js**
+Classe représentant le vaisseau du joueur. Elle gère :
+- Les propriétés du vaisseau : position (x, y), dimensions (largeur, hauteur)
+- Le système de bouclier (temporaire pour les mots, et temporaire après collision)
+- L'état de mort du vaisseau
+- Le rendu du vaisseau avec gestion des images (vaisseau normal, vaisseau avec bouclier, vaisseau mort)
+- Un fallback en rectangle si les images ne se chargent pas
 
-1. **Vaisseau** (`vaisseau.js`)
-   - Classe représentant le vaisseau du joueur
-   - Propriétés : position (x, y), images, santé, bouclier
-   - Méthodes : `draw(ctx)` pour l'affichage
+### **rocher.js**
+Classe statique pour les ennemis (rochers). Elle contient :
+- Une méthode statique `loadImage()` pour charger l'image partagée des rochers
+- Le constructeur instancie chaque rocher avec un rayon, une position aléatoire en haut du canvas, et une vitesse de chute
+- Gestion des collisions : détecte si un rocher sort du canvas
+- Le rendu du rocher avec image ou fallback en cercle gris
 
-2. **Vagues** (`vagues.js`)
-   - Gère les vagues d'ennemis
-   - Propriétés : numéro de vague, liste de rochers, objectifs
-   - Méthodes : `update()`, `draw()`, `startWave()`, `nextWave()`
-   - Difficultés crescendos à chaque vague
+### **vagues.js**
+Classe gérant les vagues d'ennemis. Elle assure :
+- Le système de progression : chaque vague augmente le nombre de rochers à tuer et accélère le spawn rate
+- Le spawn progressif des rochers (respectant un nombre maximal)
+- La mise à jour de tous les rochers (déplacement, suppression hors limites)
+- Passage automatique à la vague suivante une fois tous les rochers éliminés
+- Le rendu de tous les rochers visibles
 
-3. **Rocher** (`rocher.js`)
-   - Classe représentant les ennemis
-   - Propriétés : position, rayon, vitesse
-   - Méthodes : `update()`, `draw()`, `isOutOfBounds()`
+### **spaceGame.js**
+Fichier principal et cœur du jeu. Il contient :
+- **Classe Tirer** : représente chaque projectile tiré par le joueur
+- **Boucle de jeu** : `requestAnimationFrame` pour le rendu et les mises à jour
+- **Gestion des assets** : chargement des images (vaisseau, rochers, tirs, bouclier, fond)
+- **Système d'intro** : écran narratif de 8 secondes au démarrage
+- **Système de tir** : délai entre les tirs, vérification des collisions
+- **Système de vies** : le vaisseau perd une vie en touchant un rocher (sauf avec bouclier)
+- **Système de bouclier** : mini-jeu de mots temporaire permettant d'étendre la durée du bouclier
+- **HUD** : affichage du score, des vies restantes, du mot actuel (si bouclier actif), du timer
+- **Écrans de jeu** : menu principal, pause, game over, victoire
+- **Sauvegarde du score** : localStorage avec récupération du meilleur score
 
-4. **Tirer** (classe interne dans spaceGame.js)
-   - Représente les projectiles du joueur
-   - Utilise `ctx.translate()` et `ctx.rotate()` pour les rotations
+### **jeux.html**
+Page HTML contenant le canvas et les imports des modules JavaScript. Elle intègre le CSS `jeu_style.css` pour la mise en page (canvas centré, style noir/pixel art).
 
-### Gestion d'États
+### **css/jeu_style.css**
+Feuille de style pour :
+- Positionnement et dimensionnement du canvas
+- Mise en page générale du jeu (fond noir)
+- Import de police pixel art (Pixelify Sans depuis Google Fonts)
+- Style des textes du HUD
 
-Le jeu gère plusieurs états :
-- `introActif` : afficher l'introduction
-- `gameOver` : état de game over
+## 3. Mécaniques clés
+
+- **Déplacement** : souris (le vaisseau suit le curseur et reste dans les limites du canvas)
+- **Tir** : barre d'espace (délai de 300ms entre les tirs)
+- **Collision projectile-ennemi** : détection par distance (proximité entre projectile et rocher)
+- **Mini-jeu de bouclier** : le joueur doit taper les lettres d'un mot aléatoire pour prolonger le bouclier (max 3 extensions par mot)
+- **Santé du vaisseau** : 3 vies, perte de 1 vie au contact d'un rocher (le bouclier absorbe le coup sans perdre de vie)
+- **Progression** : vague 1 = 10 rochers, vague 2 = 20 rochers, etc. Le spawn rate diminue de 20% par vague
+
+## 4. Rôle de l'IA
+
+L'IA a été utilisée à deux moments clés :
+
+1. **Architecture générale** : Aide pour définir la structure du projet, comment découper en classes (vaisseau, rochers, vagues, projectiles), et comment organiser la boucle de jeu avec `requestAnimationFrame`.
+
+2. **Rendu Canvas avancé** : Génération du code de dessin du vaisseau, des rochers et des projectiles avec gestion des transformations (translate, rotate) pour un rendu centré et rotatif. Cette contribution est signalée par des commentaires dans `vaisseau.js` et `rocher.js`.
+
+**Travail effectué par le développeur** : Intégration complète du système de tir, collision projectile-ennemi, système d'intro narratif, mini-jeu de mots pour le bouclier, gestion des vies, HUD dynamique, écrans de jeu (menu/pause/game over), sauvegarde du score en localStorage, débogage des collisions et des transitions d'état, et optimisation du système d'assets.
 - `vaisseau.shield` : bouclier de jeu de mots
 - `vaisseau.shieldedFromRocks` : bouclier protecteur (1 coup)
 - `shipHealth` : santé du vaisseau (0-3)
