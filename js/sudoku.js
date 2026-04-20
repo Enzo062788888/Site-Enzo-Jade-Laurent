@@ -54,7 +54,7 @@ function generateSudoku() {
 
 // Génère une grille de Sudoku et masque aléatoirement certaines cellules pour créer le puzzle
 const mySudoku = generateSudoku();
-const hiddenGrid = mySudoku.map(row => row.map(cell => (Math.random() < 0.1 ? cell : 0))); // Masque aléatoirement certaines cellules
+const hiddenGrid = mySudoku.map(row => row.map(cell => (Math.random() < 0.5 ? cell : 0))); // Masque aléatoirement certaines cellules
 let errorCount = 0;
 console.table(hiddenGrid);
 console.table(mySudoku);
