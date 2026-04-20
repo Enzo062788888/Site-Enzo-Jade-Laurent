@@ -50,6 +50,21 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
+// Modèle Score pour le Space Invader
+const ScoreSchema = new mongoose.Schema({
+  playerName: { type: String, required: true },
+  score: { type: Number, required: true },
+  level: { type: Number, default: 1 },
+  gameDate: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
+});
+
+// Index pour les requêtes rapides
+ScoreSchema.index({ score: -1 }); // Pour les meilleurs scores
+ScoreSchema.index({ gameDate: -1 }); // Pour les scores récents
+
+const Score = mongoose.model('Score', ScoreSchema);
+
 // Routes
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: '../' });
@@ -160,6 +175,136 @@ app.post('/login', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Erreur lors de la connexion',
+      error: error.message
+    });
+  }
+});
+
+// ============ ROUTES POUR LES SCORES DU SPACE INVADER ============
+
+// Route pour ajouter un nouveau score
+app.post('/scores', async (req, res) => {
+  try {
+    const { playerName, score, level } = req.body;
+
+    // Validation des données
+    if (!playerName || score === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'playerName et score sont requis'
+      });
+    }
+
+    // Créer un nouveau score
+    const newScore = new Score({
+      playerName,
+      score,
+      level: level || 1
+    });
+
+    await newScore.save();
+
+    res.json({
+      success: true,
+      message: 'Score sauvegardé avec succès !',
+      data: newScore
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erreur lors de la sauvegarde du score',
+      error: error.message
+    });
+  }
+});
+
+// Route pour récupérer les meilleurs scores
+app.get('/scores/top', async (req, res) => {
+  try {
+    const limit = req.query.limit || 10;
+    
+    const topScores = await Score.find()
+      .sort({ score: -1 })
+      .limit(parseInt(limit));
+
+    res.json({
+      success: true,
+      count: topScores.length,
+      data: topScores
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erreur lors de la récupération des scores',
+      error: error.message
+    });
+  }
+});
+
+// Route pour récupérer les scores d'un joueur
+app.get('/scores/player/:playerName', async (req, res) => {
+  try {
+    const { playerName } = req.params;
+    
+    const playerScores = await Score.find({ playerName })
+      .sort({ score: -1 });
+
+    res.json({
+      success: true,
+      count: playerScores.length,
+      data: playerScores
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erreur lors de la récupération des scores du joueur',
+      error: error.message
+    });
+  }
+});
+
+// Route pour récupérer tous les scores
+app.get('/scores', async (req, res) => {
+  try {
+    const scores = await Score.find().sort({ score: -1 });
+
+    res.json({
+      success: true,
+      count: scores.length,
+      data: scores
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erreur lors de la récupération des scores',
+      error: error.message
+    });
+  }
+});
+
+// Route pour supprimer un score (par ID)
+app.delete('/scores/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedScore = await Score.findByIdAndDelete(id);
+
+    if (!deletedScore) {
+      return res.status(404).json({
+        success: false,
+        message: 'Score non trouvé'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Score supprimé avec succès',
+      data: deletedScore
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erreur lors de la suppression du score',
       error: error.message
     });
   }
