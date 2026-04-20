@@ -67,7 +67,7 @@ const Score = mongoose.model('Score', ScoreSchema);
 
 // Routes
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: '../' });
+  res.sendFile('accueil.html', { root: '../' });
 });
 
 app.get('/accueil', (req, res) => {
