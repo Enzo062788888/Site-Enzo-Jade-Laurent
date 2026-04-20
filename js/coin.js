@@ -21,6 +21,7 @@ function activateCoinAction() {
   if (!coinMessage) return;
   coinMessage.textContent = 'Pièce déposée ! Action activée.';
   coinMessage.style.background = 'rgba(10, 120, 10, 0.9)';
+  window.location.href = 'jeux.html';
 }
 
 function resetCoinMessage() {
